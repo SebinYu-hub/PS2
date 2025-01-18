@@ -1,18 +1,62 @@
+"""
+[Input]
+1. n: int
+   - 가로 길이
+   - 제약: n >= 1
+   - 제약: n은 정수
+
+[Output]
+- result: int
+  - 2x1, 1x2 타일로 채우는 방법의 수를 1000000007로 나눈 나머지
+  - 제약: 0 <= result < 1000000007
+"""
+"""
+[문제 특징] : [알고리즘 선택 이유]
+1. 점화식 패턴 존재 : 피보나치 수열 응용
+2. 큰 수 처리 필요 : 모듈러 연산 활용
+3. 메모리 제한 존재 : 변수 두 개로 최적화
+4. 이전 상태 활용 : DP 접근 필요
+5. 반복적 패턴 : 반복문 기반 구현
+"""
+"""
+[자료구조]
+- prev, curr: int
+  - 목적: 이전 두 상태값 저장
+  - 특징: 상수 공간만 사용
+  - 의미: 이전 위치까지의 방법 수
+
+[알고리즘: Tiling DP]
+procedure find_tiling_ways(n):
+    1. Initialize:
+       - 기본 케이스 처리 (n <= 2)
+       - prev = 1, curr = 2 설정
+    
+    2. For i in range(3, n+1):
+       - 다음 상태값 계산
+       - 모듈러 연산 적용
+       - 변수 값 갱신
+    
+    3. Return 최종 결과
+"""
+
 def solution(n):
-  # ➊ 바닥의 가로 길이가 1인 경우, 바닥을 채우는 방법의 수는 1
-  if n == 1:
-    return 1
-  # ➋ 바닥의 가로 길이가 2인 경우, 바닥을 채우는 방법의 수는 2
-  if n == 2:
-    return 2
-  # ➌ 동적 계획법을 위한 리스트 초기화
-  # dp[i]는 가로 길이가 i일 때 바닥을 채우는 방법의 수
-  dp = [0] * (n + 1)
-  dp[1] = 1
-  dp[2] = 2
-  # ➍ 가로 길이가 3부터 n까지의 각각의 경우에 대해 바닥을 채우는 방법의 수를 구함
-  for i in range(3, n + 1):
-    # ➎ dp[i]는 dp[i-1]과 dp[i-2]를 더한 값
-    dp[i] = (dp[i - 1] + dp[i - 2]) % 1000000007
-  # ➏ 바닥의 가로 길이가 n일 때 바닥을 채우는 방법의 수인 dp[n]을 반환
-  return dp[n]
+    # 최적화 1: 기본 케이스 처리
+    # @reference/early_return.py 참조
+    if n <= 2:
+        return n
+    
+    # 최적화 2: 두 개의 변수만 사용하여 메모리 절약
+    # @performance/list_vs_deque_pop_performance.py 참조
+    prev, curr = 1, 2
+    MOD = 1000000007
+    
+    # 최적화 3: 타일링 경우의 수 계산
+    for _ in range(3, n + 1):
+        # 최적화 4: 중간 계산에서 모듈러 연산 적용
+        prev, curr = curr, (prev + curr) % MOD
+    
+    return curr
+
+# 예시 실행
+# print(solution(4))  # 5
+# print(solution(3))  # 3

@@ -1,38 +1,91 @@
+"""
+[Input]
+1. info: List[int]
+   - 각 노드의 동물 정보
+   - 0: 양, 1: 늑대
+   - 인덱스가 노드 번호
+
+2. edges: List[List[int]]
+   - 트리의 간선 정보
+   - [부모, 자식] 형태
+   - 루트는 항상 0번
+
+[Output]
+- result: int
+  - 모을 수 있는 최대 양의 수
+  - 늑대 수가 양 이하일 때만 이동 가능
+"""
+
+"""
+[문제 특징] : [알고리즘 선택 이유]
+1. 상태 기반 탐색 필요 : BFS로 상태 공간 탐색
+2. 조건부 이동 존재 : 양/늑대 수 비교로 이동 제한
+3. 방문 가능 노드 관리 : set으로 효율적 관리
+4. 최적해 탐색 필요 : 모든 가능한 경로 탐색
+5. 트리 구조 활용 : 인접 리스트로 구현
+"""
+
+"""
+[자료구조]
+1. tree: List[List[int]]
+   - 인접 리스트로 구현된 트리
+   - tree[i]: i번 노드의 자식들
+
+2. queue: Deque[(node, sheep, wolf, available)]
+   - node: 현재 노드
+   - sheep: 현재 양 수
+   - wolf: 현재 늑대 수
+   - available: 방문 가능한 다음 노드들
+
+[알고리즘: State Space BFS]
+procedure find_max_sheep(info, edges):
+    1. Initialize:
+       - 트리 구조 구축
+       - 시작 상태 큐에 삽입
+    
+    2. BFS:
+       - 현재 상태에서 가능한 모든 다음 노드로
+       - 양/늑대 수 조건 확인
+       - 방문 가능 노드 집합 갱신
+    
+    3. Return 최대 양 수
+"""
+
 from collections import deque
 
-def solution(info, edges):
-  # ➊ 트리 구축 함수
-  def build_tree(info, edges):
-    tree = [[] for _ in range(len(info))]
-    for edge in edges:
-      tree[edge[0]].append(edge[1])
+def build_tree(info, edges):
+    """인접 리스트로 트리 구축"""
+    n = len(info)
+    tree = [[] for _ in range(n)]
+    for parent, child in edges:
+        tree[parent].append(child)
     return tree
 
-  tree = build_tree(info, edges)  # ➋ 트리 생성
-  max_sheep = 0  # ➌ 최대 양의 수를 저장할 변수 초기화
+def solution(info, edges):
+    tree = build_tree(info, edges)
+    max_sheep = 0
+    
+    # (현재 노드, 양 수, 늑대 수, 방문 가능한 노드들)
+    q = deque([(0, 1, 0, {child for child in tree[0]})])
+    
+    while q:
+        node, sheep, wolves, available = q.popleft()
+        max_sheep = max(max_sheep, sheep)
+        
+        # 방문 가능한 모든 노드에 대해
+        for next_node in available:
+            next_sheep = sheep + (not info[next_node])
+            next_wolves = wolves + info[next_node]
+            
+            # 양이 늑대보다 많은 경우만 진행
+            if next_sheep > next_wolves:
+                # 다음 방문 가능한 노드 집합 계산
+                next_available = available | set(tree[next_node]) - {next_node}
+                q.append((next_node, next_sheep, next_wolves, next_available))
+    
+    return max_sheep
 
-  # ➍ BFS를 위한 큐 생성 및 초기 상태 설정
-  # (현재 위치, 양의 수, 늑대의 수, 방문한 노드 집합)
-  q = deque([(0, 1,0, set())])
-
-  # BFS 시작
-  while q:
-    # ➎ 큐에서 상태 가져오기
-    current, sheep_count, wolf_count, visited = q.popleft()
-    # ➏ 최대 양의 수 업데이트
-    max_sheep = max(max_sheep, sheep_count)
-    # ➐ 방문한 노드 집합에 현재 노드의 이웃 노드 추가
-    visited.update(tree[current])
-
-    # ➑ 인접한 노드들에 대해 탐색
-    for next_node in visited:
-      if info[next_node]:  # ➒ 늑대일 경우
-        if sheep_count != wolf_count + 1:
-          q.append(
-            (next_node, sheep_count, wolf_count + 1, visited - {next_node})
-          )
-      else:  # ➓ 양일 경우
-        q.append(
-          (next_node, sheep_count + 1, wolf_count, visited - {next_node})
-        )
-  return max_sheep
+# 예시 실행
+# info = [0,0,1,1,1,0,1,0,1,0,1,1]
+# edges = [[0,1],[1,2],[1,4],[0,8],[8,7],[9,10],[9,11],[4,3],[6,5],[4,6],[8,9]]
+# print(solution(info, edges))  # 5

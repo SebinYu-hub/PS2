@@ -1,66 +1,78 @@
-def solution(arr, n):
-  # ❶ 2차원 배열을 인자로 받고, 90도 회전시키는 함수
-  def rotate_90(arr):
-    # ❷ 배열의 크기를 저장
-    n = len(arr)
+"""
+[Input]
+1. arr: List[List[int]]
+   - N x N 2차원 배열
+   - 제약: N > 0
 
-    # ❸ 배열의 크기와 동일한 2차원 배열 생성(초기값은 0)
-    rotated_arr = [[0] * n for _ in range(n)]
+2. n: int
+   - 회전할 횟수
+   - 제약: n >= 0
 
-    # ❹ 배열을 90도회전
-    for i in range(n):
-      for j in range(n):
-        rotated_arr[j][n - i - 1] = arr[i][j]
+[Output]
+- result: List[List[int]]
+  - 회전된 2차원 배열
+  - 제약: len(result) == len(arr)
+"""
+"""
+[문제 특징] : [알고리즘 선택 이유]
+1. 2차원 배열의 회전 연산 : 인덱스 매핑 필요
+2. 회전 횟수에 따른 반복 : 회전 연산 재사용
+3. 원본 배열 보존 필요 : 깊은 복사 사용
+4. 정사각 행렬 처리 : N x N 크기 활용
+5. 인덱스 변환 필요 : 수학적 공식 적용
+"""
+"""
+[자료구조]
+- result: List[List[int]]
+  - 목적: 회전된 배열 저장
+  - 특징: O(1) 인덱스 접근
 
-    # ❺ 90도로 회전한 배열 반환
-    return rotated_arr
-
-  # ❻ 원본배열 arr을 복사
-  rotated_arr = arr.copy()
-
-  # ❼ 90도 회전 함수 호출
-  for _ in range(n):
-    rotated_arr = rotate_90(rotated_arr)
-
-  return rotated_arr
-
-# TEST 코드 입니다. 주석을 풀고 실행시켜보세요
-'''
-print(solution(
-[
- [1, 2, 3, 4],
- [5, 6, 7, 8],
- [9, 10, 11, 12],
- [13, 14, 15, 16]
-], 1))
-'''
-
-'''
-반환값 : 
-[
-[13, 9, 5, 1],
-[14, 10, 6, 2],
-[15, 11, 7, 3],
-[16, 12, 8, 4]
-]
-'''
+[알고리즘: Matrix Rotation]
+procedure rotate_matrix(arr, n):
+    procedure rotate_90(matrix):
+        1. 결과 배열 초기화 (N x N)
+        2. 각 위치별 회전 인덱스 계산:
+           - new_col = N-1-row
+           - new_row = col
+        3. 회전된 배열 반환
     
-'''    
-print(solution(
-[
- [1, 2, 3, 4],
- [5, 6, 7, 8],
- [9, 10, 11, 12],
- [13, 14,15,16]
- ], 2))
-'''
+    1. 입력 배열 복사
+    2. n회 만큼 rotate_90 호출
+    3. 최종 결과 반환
+"""
 
-'''
-반환값 : 
-[
-[16, 15, 14, 13],
-[12, 11, 10, 9],
-[8, 7, 6, 5],
-[4, 3, 2, 1]
-]
-'''
+def solution(arr, n):
+    # 최적화 1: 회전 함수를 내부에 정의하여 변수 접근 최적화
+    def rotate_90(matrix):
+        N = len(matrix)
+        # 최적화 2: list comprehension으로 결과 배열 초기화
+        # @reference/list_comprehension.py 참조
+        result = [[0] * N for _ in range(N)]
+        
+        # 최적화 3: 90도 회전을 위한 인덱스 매핑
+        for i in range(N):
+            for j in range(N):
+                # 최적화 4: 회전 공식 적용 (i,j) -> (j,N-1-i)
+                result[j][N-1-i] = matrix[i][j]
+        
+        return result
+    
+    # 최적화 5: 입력 배열 복사하여 원본 보존
+    # @reference/mutable_immutable.py 참조
+    result = arr.copy()
+    
+    # 최적화 6: 지정된 횟수만큼 회전
+    for _ in range(n):
+        result = rotate_90(result)
+    
+    return result
+
+# 예시 실행
+# matrix = [
+#     [1, 2, 3, 4],
+#     [5, 6, 7, 8],
+#     [9, 10, 11, 12],
+#     [13, 14, 15, 16]
+# ]
+# print(solution(matrix, 1))  # 90도 회전
+# print(solution(matrix, 2))  # 180도 회전

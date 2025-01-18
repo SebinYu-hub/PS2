@@ -1,53 +1,90 @@
+# 크루스칼 알고리즘 사용
+# - 가중치 무방향 그래프에서
+# 최소 가중치 누적값으로 + 가장 많이 탐색 = 최소신장트리
+# 사이클 안만들면서
+
+# 유니온파인드로 루트 다르면 연결해서 사이클 만들기 방지하기
+
+
+
+
 def find(parent, i):
-  # ➊ 'i'가 속한 집합의 루트 노드 찾기
-  if parent[i] == i:
-    return i
-  # ➋ 경로 압축: 'i'의 부모를 직접 루트로 설정
-  parent[i] = find(parent, parent[i])
-  return parent[i]
+    # 최적화 1: 경로 압축을 통한 find 연산
+    if parent[i] == i:
+        return i
+    parent[i] = find(parent, parent[i])
+    return parent[i]
 
 def union(parent, rank, x, y):
-  # ➌ 랭크를 기준으로 두 집합을 합치기
-  xroot = find(parent, x)
-  yroot = find(parent, y)
+    # 최적화 2: Union by Rank를 통한 트리 높이 최소화
+    xroot = find(parent, x)
+    yroot = find(parent, y)
 
-  if rank[xroot] < rank[yroot]:
-    # ➍ 작은 랭크의 트리를 큰 랭크의 트리 아래에 연결
-    parent[xroot] = yroot
-  elif rank[xroot] > rank[yroot]:
-    parent[yroot] = xroot
-  else:
-    # ➎ 랭크가 같은 경우, 한 트리를 다른 트리에 붙이고 랭크 증가
-    parent[yroot] = xroot
-    rank[xroot] += 1
+    if rank[xroot] < rank[yroot]:
+        parent[xroot] = yroot
+    elif rank[xroot] > rank[yroot]:
+        parent[yroot] = xroot
+    else:
+        parent[yroot] = xroot
+        rank[xroot] += 1
 
+
+"""
+Input:
+- n: int (노드의 개수)
+- costs: List[List[int]] (간선 정보)
+  - costs[i] = [node1, node2, cost]
+  - node1, node2: 연결할 노드 번호 (0 to n-1)
+  - cost: 연결 비용
+
+Output:
+- min_cost: int (최소 신장 트리의 총 비용)
+"""
+"""
+[Kruskal MST Algorithm]
+Data Structures:
+- parent[]: Disjoint Set for cycle detection
+- rank[]: Tree height optimization
+- edges[]: Sorted edge list by weight
+
+Algorithm:
+1. Initialize DisjointSet(n)
+2. Sort edges by weight
+3. For each edge in sorted edges:
+    If not creates_cycle(edge):
+        Add edge to MST
+        Union nodes
+    If edge_count == n-1:
+        break
+4. Return total_cost
+
+Time: O(E log E)
+Space: O(V)
+"""
 def solution(n, costs):
-  # ➏ 비용을 기준으로 간선을 오름차순 정렬
-  costs.sort(key=lambda x: x[2])
+    # 최적화 3: key 함수를 사용한 정렬로 성능 향상
+    costs.sort(key=lambda x: x[2])
+    
+    parent = [i for i in range(n)]
+    rank = [0] * n
+    
+    min_cost = 0
+    edges = 0
 
-  # ➐ 각 노드의 부모를 추적하는 parent 배열 생성
-  parent = [i for i in range(n)]
-  # ➑ 각 노드의 트리의 랭크를 추적하는 rank 배열 생성
-  rank = [0] * n
+    # 최적화 4: early return으로 불필요한 반복 방지
+    for u, v, cost in costs:
+        if edges == n - 1:
+            break
+            
+        x = find(parent, u)
+        y = find(parent, v)
+        
+        if x != y:
+            union(parent, rank, x, y)
+            min_cost += cost
+            edges += 1
 
-  min_cost = 0  # 최소 신장 트리의 총 비용
-  edges = 0  # 최소 신장 트리에 포함된 간선의 개수
+    return min_cost
 
-  for edge in costs:
-    if edges == n - 1:
-      # ➒ n - 1개의 간선이 포함된 경우 중단(최소 신장 트리의 속성)
-      break
-
-    # ➓ 현재 간선의 두 노드가 속한 집합의 루트 찾기
-    x = find(parent, edge[0])
-    y = find(parent, edge[1])
-
-    if x != y:
-      # ⓫ 두 노드가 서로 다른 집합에 속하는 경우, 집합 합치기
-      union(parent, rank, x, y)
-      # 현재 간선의 비용을 최소 비용에 추가
-      min_cost += edge[2]
-      # ⓬ 포함된 간선의 개수 증가
-      edges += 1
-
-  return min_cost
+# TEST 코드입니다
+# print(solution(4, [[0,1,1],[0,2,2],[1,2,5],[1,3,1],[2,3,8]]))  # 4
