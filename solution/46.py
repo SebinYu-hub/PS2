@@ -43,9 +43,9 @@ procedure find_minimum_difference(n, wires):
     
     3. Return 최소 차이값
 """
+from decorators import solution_logger
 
-
-
+@solution_logger()
 def solution(n, wires):
     # 최적화 1: list comprehension으로 그래프 초기화
     # @reference/list_comprehension.py 참조
@@ -88,5 +88,5 @@ def solution(n, wires):
     return min_diff
 
 # 예시 실행
-# print(solution(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))  # 3
-# print(solution(4, [[1,2],[2,3],[3,4]]))  # 0
+print(solution(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))  # 3
+print(solution(4, [[1,2],[2,3],[3,4]]))  # 0

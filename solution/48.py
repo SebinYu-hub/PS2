@@ -10,31 +10,41 @@ Output:
   - 완성된 스도쿠 보드
   - 모든 0이 유효한 1-9 숫자로 채워짐
 """
+"""
+[문제 특징] : [알고리즘 선택 이유]
+1. 모든 빈 칸을 채워야 함 : 백트래킹으로 모든 가능한 숫자 시도
+2. 행/열/박스 제약조건 검사 필요 : 유효성 검사 함수로 제약 확인
+3. 이전 선택이 이후 선택에 영향 : 재귀적 접근으로 상태 관리
+4. 유일한 해를 찾아야 함 : 완전탐색으로 유효한 해 보장
+5. 잘못된 선택 취소 필요 : 백트래킹으로 상태 복구
+"""
+"""
+[자료구조]
+1. 2D Array (board)
+   - 목적: 스도쿠 보드 상태 관리
+   - 특징: O(1) 접근, 상태 변경 용이
+
+[알고리즘: Backtracking]
+procedure solve_sudoku(board):
+    initialize board state
+    
+    procedure solve():
+        if board is complete:
+            return True
+            
+        find next empty cell
+        for number in 1-9:
+            if valid placement:
+                1. 숫자 배치
+                2. 재귀적으로 다음 빈 칸 해결
+                3. 실패시 배치 취소
+                
+        return False
+    
+    return solve()
 
 """
-BackTracking with Constraints:
-1. State Space: 2D Matrix
-2. Constraints: Row, Column, Sub-grid rules
-3. Solution Finding:
-    - Find empty space
-    - Try valid values
-    - Recursively solve
-    - Backtrack if invalid
 
-def solve(state):
-    if state is complete:
-        return solution
-    
-    space = find_next_empty(state)
-    for value in possible_values:
-        if is_valid(state, space, value):
-            apply(state, space, value)
-            if solve(state):
-                return solution
-            undo(state, space)
-    
-    return failure
-"""
 def solution(board):
     def is_valid(num, row, col):
         # 행 검사

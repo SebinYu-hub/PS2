@@ -54,8 +54,10 @@ procedure solution(id_list, report, k):
        - id_list 순서대로 메일 수 반환
 """
 
+from decorators import solution_logger
 from collections import defaultdict
 
+@solution_logger()
 def solution(id_list, report, k):
     # 신고자별 신고한 사용자 집합
     reporters = defaultdict(set)
