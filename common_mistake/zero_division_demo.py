@@ -1,8 +1,3 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
 # 실수 예: 0으로 나누기
 # result = 10 / 0  # ZeroDivisionError: division by zero
 

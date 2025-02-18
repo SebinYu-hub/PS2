@@ -1,8 +1,3 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
 # 파이썬에서 return 문장이 없는 함수 정의
 def no_return_function():
     print("This function doesn't have a return statement.")

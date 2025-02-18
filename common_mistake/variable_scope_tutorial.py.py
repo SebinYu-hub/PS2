@@ -1,8 +1,3 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
 # 전역 변수 (global variable): 프로그램의 모든 부분에서 접근 가능한 변수
 global_variable = "I'm a global variable"
 

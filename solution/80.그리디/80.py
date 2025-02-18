@@ -68,5 +68,5 @@ def solution(amount):
     return result
 
 # 예시 실행
-# print(solution(123))  # [100, 10, 10, 1, 1, 1]
-# print(solution(350))  # [100, 100, 100, 50]
+print(solution(123))  # [100, 10, 10, 1, 1, 1]
+print(solution(350))  # [100, 100, 100, 50]

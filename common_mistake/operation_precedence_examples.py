@@ -1,8 +1,3 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
 # 연산 우선 순위
 
 # 1. 문법과 개념 설명

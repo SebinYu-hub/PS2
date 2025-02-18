@@ -1,8 +1,3 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
 # 예제 리스트 생성
 my_list = [10, 20, 30, 40, 50]
 

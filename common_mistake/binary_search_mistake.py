@@ -1,8 +1,4 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
+
 # 정렬된 리스트 생성
 sorted_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 

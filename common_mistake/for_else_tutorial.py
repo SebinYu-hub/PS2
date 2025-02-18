@@ -1,8 +1,3 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
 # 주어진 숫자 리스트에서 특정 숫자를 찾는 예제
 
 numbers = [1, 3, 5, 7, 9]

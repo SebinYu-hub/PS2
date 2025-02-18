@@ -1,8 +1,3 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
 # 파이썬 리스트는 0-based 인덱싱을 사용합니다.
 # 즉, 첫 번째 원소의 인덱스는 0입니다.
 my_list = [10, 20, 30, 40, 50]

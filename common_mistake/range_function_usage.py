@@ -1,8 +1,4 @@
-#############################################################
-# | cafe       | http://cafe.naver.com/dremdelover          |
-# | Q&A        | https://open.kakao.com/o/gX0WnTCf          |
-# | business   | ultrasuperrok@gmail.com                    |
-#############################################################
+
 # range 함수의 기본적인 문법:
 # range([start], stop, [step])
 # start: 시작 값 (생략 가능, 기본값은 0)

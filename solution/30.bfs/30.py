@@ -61,14 +61,6 @@ DIRECTIONS = {
 }
 
 def find_points(maps):
-    """시작점, 도착점, 레버 위치를 한 번의 순회로 찾기
-    
-    Args:
-        maps (List[str]): 맵을 나타내는 문자열 리스트
-        
-    Returns:
-        Tuple[Tuple[int, int]]: (시작점, 도착점, 레버) 좌표
-    """
     points = {'S': None, 'E': None, 'L': None}
     
     # 리스트 컴프리헨션과 enumerate 활용
